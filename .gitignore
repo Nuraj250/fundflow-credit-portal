@@ -1,1 +1,38 @@
-   
+# --- Common ---
+node_modules/
+.env
+.env.local
+dist/
+coverage/
+.DS_Store
+*.log
+logs/
+
+# --- Backend (Node.js) ---
+backend/node_modules/
+backend/.env
+backend/.DS_Store
+backend/coverage/
+backend/logs/
+
+# --- Frontend (Next.js) ---
+frontend/node_modules/
+frontend/.next/
+frontend/.env.local
+frontend/out/
+frontend/.DS_Store
+
+# --- OS Files ---
+Thumbs.db
+ehthumbs.db
+Icon?
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# --- Optional Docker or Build ---
+docker-compose.override.yml
+*.local
+*.bak
+*.tmp

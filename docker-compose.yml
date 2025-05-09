@@ -1,0 +1,32 @@
+version: "3.8"
+
+services:
+  mongo:
+    image: mongo
+    container_name: fundflow-mongo
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo_data:/data/db
+
+  backend:
+    build: ./backend
+    container_name: fundflow-backend
+    ports:
+      - "5000:5000"
+    environment:
+      - MONGO_URI=mongodb://mongo:27017/fundflow
+      - JWT_SECRET=supersecretjwtkey
+    depends_on:
+      - mongo
+
+  frontend:
+    build: ./frontend
+    container_name: fundflow-frontend
+    ports:
+      - "5173:4173"
+    depends_on:
+      - backend
+
+volumes:
+  mongo_data:

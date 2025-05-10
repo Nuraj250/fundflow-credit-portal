@@ -15,7 +15,13 @@ const login = async (req, res) => {
     if (!user || !(await bcrypt.compare(password, user.password))) {
         return res.status(400).json({ message: 'Invalid credentials' });
     }
-    res.json({ token: generateToken(user) });
+    // res.json({ token: generateToken(user) });
+        res.json({
+        token: generateToken(user),
+        role: user.role,
+        name: user.name,
+        id: user._id
+    });
 };
 
 module.exports = { register, login };

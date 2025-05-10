@@ -1,9 +1,34 @@
 const Customer = require('../models/customer.model');
 
 const createCustomer = async (req, res) => {
-    const creditScore = Math.floor(Math.random() * (850 - 300 + 1)) + 300;
-    const customer = await Customer.create({ ...req.body, creditScore });
-    res.json(customer);
+    try {
+        const { name, NIC, email, password, monthlyIncome } = req.body;
+
+        if (!name || !NIC || !email || !password || !monthlyIncome) {
+            return res.status(400).json({ message: 'All fields are required' });
+        }
+
+        const existing = await Customer.findOne({ email });
+        if (existing) {
+            return res.status(400).json({ message: 'Email already exists' });
+        }
+
+        const hashedPassword = await bcrypt.hash(password, 10);
+
+        const customer = await Customer.create({
+            name,
+            NIC,
+            email,
+            password: hashedPassword,
+            monthlyIncome,
+            role: 'customer',
+            creditScore: Math.floor(Math.random() * (850 - 300 + 1)) + 300,
+        });
+
+        res.status(201).json(customer);
+    } catch (err) {
+        res.status(500).json({ message: 'Create customer failed' });
+    }
 };
 
 const getAllCustomers = async (req, res) => {

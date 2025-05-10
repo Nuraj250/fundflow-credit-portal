@@ -3,44 +3,52 @@ const Customer = require('../models/customer.model');
 const { calculateScore, getStatus } = require('../utils/scoring');
 const logLoanRequest = require('../logs/mongodb.logger');
 
-// Admin or system-based loan creation
+// Create Loan (admin or customer)
 const createLoan = async (req, res) => {
     try {
         const {
-            customerId,
             loanAmount,
             durationMonths,
             purpose,
             monthlyIncome,
             existingLoans,
+            customerId: inputCustomerId,
         } = req.body;
 
-        if (!customerId || !loanAmount || !durationMonths || !purpose || !monthlyIncome) {
-            return res.status(400).json({ message: 'All required fields must be provided' });
-        }
+        const userEmail = req.user?.email;
+        const userRole = req.user?.role;
 
-        const customer = await Customer.findById(customerId);
+        const customer = userRole === 'admin'
+            ? await Customer.findById(inputCustomerId)
+            : await Customer.findOne({ email: userEmail });
+
         if (!customer) {
             return res.status(404).json({ message: 'Customer not found' });
         }
 
+        const creditScore = customer.creditScore || 0;
+
         const loanData = {
-            customerId,
-            loanAmount: Number(loanAmount),
-            durationMonths: Number(durationMonths),
+            customerId: customer._id,
+            loanAmount,
+            durationMonths,
             purpose,
-            monthlyIncome: Number(monthlyIncome),
-            existingLoans: Number(existingLoans),
-            creditScore: customer.creditScore,
+            monthlyIncome,
+            existingLoans,
+            creditScore,
         };
 
         const score = calculateScore(loanData);
-        const status = getStatus(score).toLowerCase();
+        const isAdmin = userRole === 'admin';
 
-        const recommendation =
-            status === 'approved'
+        // ✅ Use lowercase 'approved', 'rejected', 'pending'
+        const status = isAdmin ? (score > 60 ? 'approved' : 'rejected') : 'pending';
+
+        const recommendation = isAdmin
+            ? status === 'approved'
                 ? `Eligible for ${durationMonths}-month loan at 14% interest`
-                : 'Loan Rejected. Improve financial profile.';
+                : 'Loan rejected. Improve financial profile.'
+            : 'Awaiting admin review';
 
         const loan = await Loan.create({
             ...loanData,
@@ -49,54 +57,50 @@ const createLoan = async (req, res) => {
             recommendation,
         });
 
-        await logLoanRequest(customerId, req.body, score, status);
+        await logLoanRequest(customer._id, req.body, score, status);
 
-        res.status(201).json({ score, status, recommendation, loan });
-    } catch (error) {
-        console.error('Loan creation failed:', error.message);
-        res.status(500).json({ message: 'Internal server error' });
+        res.status(201).json(loan);
+    } catch (err) {
+        console.error('Loan creation failed:', err.message);
+        res.status(500).json({ message: 'Loan creation failed' });
     }
 };
 
+// Get all loans
 const getLoans = async (req, res) => {
     try {
         const loans = await Loan.find().populate('customerId', 'name email');
         res.json(loans);
-    } catch (error) {
-        res.status(500).json({ message: 'Failed to fetch loans' });
+    } catch (err) {
+        res.status(500).json({ message: 'Fetching loans failed' });
     }
 };
 
+// Update a loan
 const updateLoan = async (req, res) => {
-  try {
-    const { id } = req.params;
-    const loan = await Loan.findByIdAndUpdate(id, req.body, { new: true });
-
-    if (!loan) {
-      return res.status(404).json({ message: 'Loan not found' });
+    try {
+        const updated = await Loan.findByIdAndUpdate(req.params.id, req.body, { new: true });
+        if (!updated) return res.status(404).json({ message: 'Loan not found' });
+        res.json(updated);
+    } catch (err) {
+        res.status(500).json({ message: 'Loan update failed' });
     }
-
-    res.json(loan);
-  } catch (error) {
-    console.error('Loan update failed:', error.message);
-    res.status(500).json({ message: 'Failed to update loan' });
-  }
 };
 
+// Delete a loan
 const deleteLoan = async (req, res) => {
-  try {
-    const { id } = req.params;
-    const loan = await Loan.findByIdAndDelete(id);
-
-    if (!loan) {
-      return res.status(404).json({ message: 'Loan not found' });
+    try {
+        const deleted = await Loan.findByIdAndDelete(req.params.id);
+        if (!deleted) return res.status(404).json({ message: 'Loan not found' });
+        res.json({ message: 'Loan deleted successfully' });
+    } catch (err) {
+        res.status(500).json({ message: 'Loan deletion failed' });
     }
-
-    res.json({ message: 'Loan deleted successfully' });
-  } catch (error) {
-    console.error('Loan deletion failed:', error.message);
-    res.status(500).json({ message: 'Failed to delete loan' });
-  }
 };
 
-module.exports = { createLoan, getLoans, updateLoan, deleteLoan };
+module.exports = {
+    createLoan,
+    getLoans,
+    updateLoan,
+    deleteLoan,
+};

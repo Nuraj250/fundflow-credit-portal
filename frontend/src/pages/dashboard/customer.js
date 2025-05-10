@@ -12,12 +12,13 @@ import api from '@/lib/api';
 export default function CustomerDashboard() {
     const { token, role } = useAuth();
     const router = useRouter();
+    const [isOpen, setIsOpen] = useState(false);
     const [loans, setLoans] = useState([]);
     const [loanModalOpen, setLoanModalOpen] = useState(false);
     const [loanData, setLoanData] = useState({
         loanAmount: '', durationMonths: '', purpose: '', monthlyIncome: '', existingLoans: ''
     });
-
+    const closeModal = () => setIsOpen(false);
     useEffect(() => {
         if (role !== 'customer') router.push('/');
     }, [role]);
@@ -57,13 +58,16 @@ export default function CustomerDashboard() {
                     <LoanTable loans={loans} />
                 </section>
             </Layout>
-
             <LoanFormModal
-                isOpen={loanModalOpen}
-                onClose={() => setLoanModalOpen(false)}
-                onSubmit={handleSubmit}
-                initialData={loanData}
+                isOpen={isOpen}
+                onClose={closeModal}
+                onSubmit={(formData) => {
+                    const payload = { ...formData };
+                    delete payload.customerId;
+                    createLoanAsCustomer(payload);
+                }}
                 customers={[]}
+                role="customer"
                 style={{ position: 'absolute', top: '150%' }}
             />
         </>

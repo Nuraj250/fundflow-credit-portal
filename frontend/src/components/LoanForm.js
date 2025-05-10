@@ -1,6 +1,6 @@
 export default function LoanForm({ loanData, onChange, onSubmit }) {
     return (
-        <form onSubmit={onSubmit} className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+        <form onSubmit={onSubmit} className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6" style={{ position: 'relative', top: '100px' }}>
             {[
                 { name: 'loanAmount', type: 'number', placeholder: 'Loan Amount' },
                 { name: 'durationMonths', type: 'number', placeholder: 'Duration (Months)' },

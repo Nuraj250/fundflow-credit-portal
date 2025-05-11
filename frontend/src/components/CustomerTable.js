@@ -1,3 +1,17 @@
+/**
+ * ============================================
+ * @file CustomerTable.jsx
+ * @description Reusable table component to list customers
+ * - Displays customer details: name, NIC, email, income, score
+ * - Provides Edit and Delete actions via parent callbacks
+ * - Styled using TailwindCSS with a glass-like UI
+ * 
+ * @prop {Array} customers - List of customer objects
+ * @prop {Function} onEdit - Handler to invoke edit modal with customer data
+ * @prop {Function} onDelete - Handler to remove customer by ID
+ * ============================================
+ */
+
 export default function CustomerTable({ customers, onEdit, onDelete }) {
     return (
         <div className="overflow-x-auto">

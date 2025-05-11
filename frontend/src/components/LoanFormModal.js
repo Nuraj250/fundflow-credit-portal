@@ -1,3 +1,21 @@
+/**
+  
+ * @file LoanFormModal.jsx
+ * @description Modal component for creating or editing loan data
+ * - Supports both admin and customer roles
+ * - Displays customer selector for admin
+ * - Accepts initial data for editing functionality
+ * - Submits form data via provided `onSubmit` handler
+ * 
+ * @props {Boolean} isOpen - Controls modal visibility
+ * @props {Function} onClose - Closes the modal
+ * @props {Function} onSubmit - Submits the form data
+ * @props {Object} initialData - Data for editing an existing loan
+ * @props {Array} customers - List of customers (used by admin only)
+ * @props {String} customerId - Current customer ID (used by customer)
+ * @props {String} role - User role ('admin' or 'customer')
+   */
+
 import { useState, useEffect } from 'react';
 
 export default function LoanFormModal({ isOpen, onClose, onSubmit, initialData, customers = [], customerId, role }) {

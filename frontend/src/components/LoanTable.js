@@ -1,3 +1,15 @@
+/**
+  
+ * @file LoanTable.jsx
+ * @description Reusable table component to display list of loans
+ * - Shows basic loan info: customer, amount, score, status, and recommendation
+ * - Provides edit and delete action buttons per loan row
+ *
+ * @props {Array} loans - Array of loan objects
+ * @props {Function} onEdit - Handler for editing a loan (receives loan object)
+ * @props {Function} onDelete - Handler for deleting a loan (receives loan ID)
+   */
+
 export default function LoanTable({ loans, onEdit, onDelete }) {
     return (
         <div className="overflow-x-auto">
@@ -21,8 +33,18 @@ export default function LoanTable({ loans, onEdit, onDelete }) {
                             <td className="px-4 py-2">{loan.status}</td>
                             <td className="px-4 py-2">{loan.recommendation}</td>
                             <td className="px-4 py-2 space-x-2">
-                                <button onClick={() => onEdit(loan)} className="bg-yellow-500 text-white px-2 py-1 rounded">Edit</button>
-                                <button onClick={() => onDelete(loan._id)} className="bg-red-600 text-white px-2 py-1 rounded">Delete</button>
+                                <button
+                                    onClick={() => onEdit(loan)}
+                                    className="bg-yellow-500 text-white px-2 py-1 rounded"
+                                >
+                                    Edit
+                                </button>
+                                <button
+                                    onClick={() => onDelete(loan._id)}
+                                    className="bg-red-600 text-white px-2 py-1 rounded"
+                                >
+                                    Delete
+                                </button>
                             </td>
                         </tr>
                     ))}

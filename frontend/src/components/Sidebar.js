@@ -1,3 +1,16 @@
+/**
+  
+ * @file Sidebar.jsx
+ * @description Sidebar navigation for both admin and customer roles
+ * - Displays relevant dashboard routes based on user role
+ * - Includes logout functionality
+ *
+ * @uses useAuth() to determine role and handle logout
+ * @routes
+ *   - Admin: Dashboard, Customers, Loans
+ *   - Customer: Dashboard only
+   */
+
 import Link from 'next/link';
 import { useAuth } from '@/context/AuthContext';
 

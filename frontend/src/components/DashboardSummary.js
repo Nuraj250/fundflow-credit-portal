@@ -1,3 +1,15 @@
+/**
+ * ==========================================================
+ * @file DashboardSummary.jsx
+ * @description Dashboard summary card displaying stats
+ * - Shows key metrics based on user role (admin vs customer)
+ * - Admins see totals across the system
+ * - Customers see their own limited metrics
+ * 
+ * @prop {string} role - Role of the logged-in user ('admin' or 'customer')
+ * ==========================================================
+ */
+
 export default function DashboardSummary({ role }) {
     return (
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -15,7 +27,7 @@ export default function DashboardSummary({ role }) {
                 {
                     title: 'Approved Loans',
                     value: role === 'admin' ? '241' : '2',
-                    icon: '✅',
+                    icon: ' ',
                 },
             ].map((item) => (
                 <div

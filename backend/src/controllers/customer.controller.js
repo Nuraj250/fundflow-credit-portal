@@ -1,3 +1,12 @@
+/**
+ * @file customer.controller.js
+ * @description Handles CRUD operations for customer records.
+ * - Creates customer profiles with hashed passwords.
+ * - Registers customers as users for login capability.
+ * - Supports retrieval, update, and deletion of customer records.
+ * This controller is used in `/api/customers` routes by admin users.
+ */
+
 const Customer = require('../models/customer.model');
 const bcrypt = require('bcryptjs');
 const User = require('../models/user.model');

@@ -1,3 +1,12 @@
+/**
+ * @file customer.model.js
+ * @description Mongoose model for customer data.
+ * - Stores customer credentials and financial info.
+ * - Includes a pre-save hook to securely hash passwords.
+ * - Uniquely identifies customers by email.
+ * Used in authentication, loan processing, and admin CRUD operations.
+ */
+
 const mongoose = require('mongoose');
 const bcrypt = require('bcryptjs');
 
@@ -11,7 +20,7 @@ const customerSchema = new mongoose.Schema({
   role: { type: String, default: 'customer' }
 });
 
-// ✅ Pre-save hook to hash password
+// Pre-save hook to hash password
 customerSchema.pre('save', async function (next) {
   if (!this.isModified('password')) return next();
   try {

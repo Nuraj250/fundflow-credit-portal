@@ -4,7 +4,7 @@ A full-stack microfinance loan management and credit scoring system built with *
 
 ---
 
-## ✅ Features Overview
+##   Features Overview
 
 ### 🔐 Authentication
 
@@ -153,10 +153,10 @@ npm run dev
 
 ## 🧪 Bonus Modules Implemented
 
-✅ MongoDB logging
-✅ Responsive UI with Tailwind CSS
-✅ Admin & Customer layouts with role-based dashboards
-✅ Real-time credit scoring logic
+  MongoDB logging
+  Responsive UI with Tailwind CSS
+  Admin & Customer layouts with role-based dashboards
+  Real-time credit scoring logic
 🚧 Swagger API docs & PDF summary: *Not yet implemented*
 
 ---

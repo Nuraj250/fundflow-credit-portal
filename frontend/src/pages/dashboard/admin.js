@@ -1,3 +1,21 @@
+/**
+ 
+ * @file AdminDashboard.jsx
+ * @description Admin panel UI for managing customers and loans in FundFlow portal
+ *
+ * Features:
+ * - Tab-based rendering for Overview, Customers, and Loans
+ * - Admin can:
+ *    - Create, edit, delete customers
+ *    - Create, edit, delete loan records
+ *    - View basic dashboard summaries
+ *
+ * Dependencies:
+ * - Uses context from AuthContext to validate role
+ * - Uses API wrapper for secure backend communication
+ * - Uses Tailwind CSS for styling
+ 
+ */
 import LoanTable from '@/components/LoanTable';
 import LoanFormModal from '@/components/LoanFormModal';
 import { useState, useEffect } from 'react';
@@ -14,7 +32,7 @@ export default function AdminDashboard() {
     const { token, role } = useAuth();
     const router = useRouter();
     const { tab = 'overview' } = router.query;
-    const [customers, setCustomers] = useState([]); // ✅ Add this
+    const [customers, setCustomers] = useState([]); //   Add this
     const [loans, setLoans] = useState([]);
     const [modalOpen, setModalOpen] = useState(false);
     const [editingCustomer, setEditingCustomer] = useState(null);

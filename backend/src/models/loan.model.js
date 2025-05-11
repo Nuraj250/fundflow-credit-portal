@@ -1,3 +1,12 @@
+/**
+ * @file loan.model.js
+ * @description Mongoose schema for storing loan applications.
+ * - References the `Customer` model via `customerId`.
+ * - Contains all financial and decision-related fields: income, score, status, etc.
+ * - Uses timestamps to track creation and update times.
+ * Used in loan processing, credit scoring, and CRUD operations.
+ */
+
 const mongoose = require('mongoose');
 
 const loanSchema = new mongoose.Schema(
@@ -37,7 +46,7 @@ const loanSchema = new mongoose.Schema(
         },
         status: {
             type: String,
-            enum: ['pending', 'approved', 'rejected'], // ✅ lowercase
+            enum: ['pending', 'approved', 'rejected'], // lowercase enforced
             default: 'pending',
         },
         recommendation: {

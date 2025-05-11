@@ -1,3 +1,11 @@
+/**
+ * @file api.js
+ * @description Axios instance for centralized API requests
+ * - Sets base URL from environment variable `NEXT_PUBLIC_API_URL`
+ * - Automatically attaches JWT token from localStorage (if present)
+ *   to the Authorization header of every request
+   */
+
 import axios from 'axios';
 
 const api = axios.create({

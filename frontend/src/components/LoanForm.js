@@ -1,3 +1,17 @@
+/**
+ * ==========================================================
+ * @file LoanForm.jsx
+ * @description Simple loan application form component
+ * - Accepts loan details as props
+ * - Triggers onChange and onSubmit from parent
+ * - Includes basic validation and styling
+ * 
+ * @props {Object} loanData - Form field values
+ * @props {Function} onChange - Handler for input changes
+ * @props {Function} onSubmit - Handler for form submission
+ * ==========================================================
+ */
+
 export default function LoanForm({ loanData, onChange, onSubmit }) {
     return (
         <form onSubmit={onSubmit} className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6" style={{ position: 'relative', top: '100px' }}>

@@ -1,3 +1,13 @@
+/**
+ * @file index.js
+ * @description Entry point of the backend server.
+ * - Loads environment variables.
+ * - Connects to MongoDB using Mongoose.
+ * - Applies middleware: CORS, JSON parsing, logging.
+ * - Registers route modules: Auth, Customers, Loans.
+ * - Starts the Express server on the specified port.
+ */
+
 const express = require('express');
 const dotenv = require('dotenv');
 const cors = require('cors');

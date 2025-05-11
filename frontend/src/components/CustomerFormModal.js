@@ -1,3 +1,18 @@
+/**
+ * ============================================
+ * @file CustomerFormModal.jsx
+ * @description Modal component to create or edit a customer
+ * - Supports controlled form for name, NIC, email, password, and monthly income
+ * - Handles both creation and edit flows based on `initialData`
+ * - Uses glass UI styling with TailwindCSS
+ * - Props:
+ *   @prop {boolean} isOpen - whether modal is visible
+ *   @prop {function} onClose - function to close the modal
+ *   @prop {function} onSubmit - callback to submit form data
+ *   @prop {object} [initialData] - customer data for edit mode
+ * ============================================
+ */
+
 import { useState, useEffect } from 'react';
 
 export default function CustomerFormModal({ isOpen, onClose, onSubmit, initialData }) {
@@ -71,7 +86,7 @@ export default function CustomerFormModal({ isOpen, onClose, onSubmit, initialDa
                         value={formData.password}
                         onChange={handleChange}
                         placeholder="Password"
-                        required={!initialData} 
+                        required={!initialData}
                         className="w-full p-2 rounded bg-white/5 text-white border border-white/20"
                     />
                     <input

@@ -1,3 +1,20 @@
+/**
+ 
+ * @file CustomerDashboard.jsx
+ * @description Portal for logged-in customers to view and apply for loans.
+ *
+ * Features:
+ * - Displays dashboard summary and customer's loan list
+ * - Allows customer to apply for a new loan
+ * - Auto-populates current user ID in loan creation
+ *
+ * Requirements:
+ * - Authenticated as a customer
+ * - Uses AuthContext for user session info
+ * - Secure API requests using JWT
+ 
+ */
+
 import Layout from '@/components/Layout';
 import Navbar from '@/components/Navbar';
 import LoanFormModal from '@/components/LoanFormModal';

@@ -1,3 +1,12 @@
+/**
+ * @file loan.controller.js
+ * @description Manages loan creation, retrieval, updating, and deletion.
+ * - Calculates credit score and evaluates loan approval status.
+ * - Admins can approve/reject loans based on score; customers' loans go into "pending".
+ * - Loan entries are logged to MongoDB for audit using a custom logger.
+ * Used in `/api/loans` route and secured via auth middleware.
+ */
+
 const Loan = require('../models/loan.model');
 const Customer = require('../models/customer.model');
 const { calculateScore, getStatus } = require('../utils/scoring');

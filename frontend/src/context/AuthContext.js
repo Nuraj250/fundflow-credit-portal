@@ -1,3 +1,17 @@
+/**
+ * @file AuthContext.jsx
+ * @description Global authentication context for managing login state
+ * - Stores JWT token, user role, and user ID
+ * - Handles login/logout flows and auto-redirects
+ *
+ * @provides useAuth hook for accessing:
+ *   - token: JWT token from backend
+ *   - role: either 'admin' or 'customer'
+ *   - id: user/customer MongoDB ID
+ *   - login(): saves auth data and navigates to dashboard
+ *   - logout(): clears auth state and redirects to home
+   */
+
 import { createContext, useContext, useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 
@@ -24,7 +38,6 @@ export const AuthProvider = ({ children }) => {
         localStorage.setItem('token', token);
         localStorage.setItem('role', role);
         localStorage.setItem('id', id);
-        console.log(localStorage)
         setToken(token);
         setRole(role);
         setId(id);

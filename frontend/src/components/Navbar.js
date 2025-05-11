@@ -1,3 +1,14 @@
+/**
+  
+ * @file Navbar.jsx
+ * @description Navigation bar component shown across dashboards
+ * - Displays title and context-aware buttons
+ * - "Add Loan" button is only shown to customers
+ * - "Logout" button clears auth and navigates to login
+ *
+ * @props {Function} onAddLoan - Triggers loan modal opening (for customers)
+   */
+
 import { useAuth } from '@/context/AuthContext';
 
 export default function Navbar({ onAddLoan }) {

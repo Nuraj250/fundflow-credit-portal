@@ -1,3 +1,18 @@
+/**
+ * @file pages/index.js
+ * @description Login page for the FundFlow app.
+ *
+ * Purpose:
+ * - Authenticates users via backend API
+ * - Stores JWT and role in context + localStorage
+ * - Redirects users to respective dashboards upon success
+ *
+ * Features:
+ * - Email/password input
+ * - Password visibility toggle
+ * - Submits to /api/auth/login
+ */
+
 import { useState } from 'react';
 import axios from 'axios';
 import { useAuth } from '@/context/AuthContext';

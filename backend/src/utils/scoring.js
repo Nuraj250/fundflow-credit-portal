@@ -1,3 +1,11 @@
+/**
+ * @file scoring.js
+ * @description Business logic for loan credit scoring and approval.
+ * - `calculateScore(loan)`: Computes a credit score based on loan data.
+ * - `getStatus(score)`: Returns 'Approved' or 'Rejected' based on score.
+ * Used in loan creation to assess financial eligibility.
+ */
+
 const calculateScore = (loan) => {
     let score = 50;
 

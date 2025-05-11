@@ -1,3 +1,16 @@
+/**
+ * ==========================================================
+ * @file Layout.jsx
+ * @description App-wide layout component with sidebar
+ * - Wraps all pages with a consistent layout
+ * - Includes a glassmorphic sidebar and main content area
+ * - Uses TailwindCSS for modern styling
+ * 
+ * @component
+ * @param {ReactNode} children - Main page content rendered inside layout
+ * ==========================================================
+ */
+
 import Sidebar from './Sidebar';
 
 export default function Layout({ children }) {

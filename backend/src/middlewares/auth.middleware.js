@@ -1,3 +1,12 @@
+/**
+ * @file authMiddleware.js
+ * @description Express middleware to verify JWT tokens and authorize requests.
+ * - Extracts the token from the Authorization header.
+ * - Verifies and decodes it using the JWT secret.
+ * - Attaches user info (id, email, role) to `req.user` for downstream use.
+ * Used to protect routes like `/api/loans`, `/api/customers`, etc.
+ */
+
 const jwt = require('jsonwebtoken');
 
 const authMiddleware = (req, res, next) => {
@@ -12,7 +21,7 @@ const authMiddleware = (req, res, next) => {
   try {
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
     req.user = {
-      id: decoded.id,     
+      id: decoded.id,
       email: decoded.email,
       role: decoded.role,
     };

@@ -17,7 +17,7 @@ export default function LoginPage() {
     try {
       const res = await axios.post('http://localhost:5000/api/auth/login', form);
       console.log('[Frontend] Login success, response:', res.data);
-      login(res.data.token, res.data.role);
+      login(res.data.token, res.data.role, res.data.id);
     } catch (err) {
       alert('Login failed');
     } finally {

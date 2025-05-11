@@ -10,15 +10,14 @@ import toast from 'react-hot-toast';
 import api from '@/lib/api';
 
 export default function CustomerDashboard() {
-    const { token, role } = useAuth();
+    const { token, role, id } = useAuth();
     const router = useRouter();
-    const [isOpen, setIsOpen] = useState(false);
     const [loans, setLoans] = useState([]);
     const [loanModalOpen, setLoanModalOpen] = useState(false);
     const [loanData, setLoanData] = useState({
-        loanAmount: '', durationMonths: '', purpose: '', monthlyIncome: '', existingLoans: ''
+        customerId: id || '', loanAmount: '', durationMonths: '', purpose: '', monthlyIncome: '', existingLoans: ''
     });
-    const closeModal = () => setIsOpen(false);
+
     useEffect(() => {
         if (role !== 'customer') router.push('/');
     }, [role]);
@@ -35,8 +34,9 @@ export default function CustomerDashboard() {
     const handleChange = (e) => setLoanData({ ...loanData, [e.target.name]: e.target.value });
 
     const handleSubmit = async (e) => {
-        e.preventDefault();
+        if (e?.preventDefault) e.preventDefault();
         try {
+            console.log("ata",loanData)
             await api.post('/loans', loanData);
             toast.success('Loan applied successfully');
             fetchLoans();
@@ -58,17 +58,14 @@ export default function CustomerDashboard() {
                     <LoanTable loans={loans} />
                 </section>
             </Layout>
+
             <LoanFormModal
-                isOpen={isOpen}
-                onClose={closeModal}
-                onSubmit={(formData) => {
-                    const payload = { ...formData };
-                    delete payload.customerId;
-                    createLoanAsCustomer(payload);
-                }}
+                isOpen={loanModalOpen}
+                onClose={() => setLoanModalOpen(false)}
+                onSubmit={handleSubmit}
+                initialData={loanData}
+                customerId={id}
                 customers={[]}
-                role="customer"
-                style={{ position: 'absolute', top: '150%' }}
             />
         </>
     );

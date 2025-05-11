@@ -41,7 +41,6 @@ const createLoan = async (req, res) => {
         const score = calculateScore(loanData);
         const isAdmin = userRole === 'admin';
 
-        // ✅ Use lowercase 'approved', 'rejected', 'pending'
         const status = isAdmin ? (score > 60 ? 'approved' : 'rejected') : 'pending';
 
         const recommendation = isAdmin

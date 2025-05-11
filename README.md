@@ -1,131 +1,163 @@
-# FundFlow – Microfinance Credit Scoring & Lending Portal
+## 📊 FundFlow – Microfinance Credit Scoring & Lending Portal
 
-FundFlow is a full-stack web platform for managing microfinance loan applications. It enables customers to apply for loans, and admins to review them based on a smart scoring algorithm. The system supports role-based authentication, dynamic loan scoring, and an interactive dashboard.
-
----
-
-## 🧱 Tech Stack
-
-| Layer | Tech |
-|------|------|
-| Frontend | React + Vite + TailwindCSS |
-| Backend | Node.js + Express |
-| Database | MongoDB |
-| Auth | JWT (role-based) |
-| API Test | Postman |
-| Deployment | Docker (multi-container) |
+A full-stack microfinance loan management and credit scoring system built with **Next.js**, **Node.js**, **MongoDB**, and **JWT-based authentication**. It enables users to apply for loans and allows admins to manage users, evaluate loans, and track creditworthiness via a scoring algorithm.
 
 ---
 
-## 📦 Features
+## ✅ Features Overview
 
-### 👤 Authentication
-- JWT-based login for Admin and Customer
+### 🔐 Authentication
 
-### 🧑‍💼 Admin Panel
-- Create, view, update, and delete customers
-- View all loan applications with score, status
-- Filter by loan status and score
-- MongoDB logging of all loan requests
+* JWT-based login and protected routes
+* Role-based access: `admin` and `customer`
+* Admins can create customer accounts which can be used to log in
 
-### 🧑‍💻 Customer Portal
-- Submit loan applications
-- View loan history and approval status
+### 👥 Customer Management (Admin Only)
+
+* Create new customers (with randomized credit score)
+* View all customers
+* Edit/delete customer data
+
+### 📝 Loan Application (Customer)
+
+* Customers can submit multiple loan requests
+* Inputs:
+
+  ```json
+  {
+    "loanAmount": 200000,
+    "durationMonths": 10,
+    "purpose": "Business Expansion",
+    "monthlyIncome": 30000,
+    "existingLoans": 1
+  }
+  ```
+
+### 📈 Smart Credit Scoring
+
+* Score out of 100 based on:
+
+  * EMI must not exceed 40% of income
+  * Max 2 existing loans
+  * Lower amounts preferred
+  * Higher credit scores preferred
+* Output:
+
+  ```json
+  {
+    "score": 78,
+    "status": "Approved",
+    "recommendation": "Eligible for 10-month loan at 14% interest"
+  }
+  ```
+
+### 📊 Dashboards
+
+* **Admin Dashboard:**
+
+  * View all customers and loans
+  * Filter by score/status
+  * Full CRUD functionality
+* **Customer Dashboard:**
+
+  * View submitted loans
+  * Apply for new loan (status is `pending`)
+
+### 🧾 Logging (Bonus)
+
+* Every loan request and score is logged in MongoDB
+* Log includes: customer ID, input, score, status, timestamp
 
 ---
 
-## 🚀 Local Development Setup (Manual)
+## ⚙️ Tech Stack
 
-### 1. Clone and install
+| Layer    | Tech                     |
+| -------- | ------------------------ |
+| Frontend | Next.js, React, Tailwind |
+| Backend  | Node.js, Express         |
+| Auth     | JWT, Role-based          |
+| Database | MongoDB                  |
+| Logging  | MongoDB Collection       |
+| Styling  | Tailwind CSS             |
+
+---
+
+## 🚀 Setup Instructions
+
+### 1. Clone the Repo
 
 ```bash
 git clone https://github.com/Nuraj250/fundflow-credit-portal.git
 cd fundflow-credit-portal
-````
+```
 
-### 2. Backend Setup
+### 2. Setup Backend
 
 ```bash
 cd backend
-cp .env.example .env      # or create .env with the content below
 npm install
 npm run dev
 ```
 
-### 3. Frontend Setup
+* `.env` (example):
 
-```bash
-cd ../frontend
-cp .env.example .env      # or create manually
-npm install
-npm run dev
-```
-
----
-
-## 🐳 Dockerized Setup (Recommended)
-
-### Prerequisites
-
-* Docker & Docker Compose installed
-
-### One command to rule them all:
-
-```bash
-docker-compose up --build
-```
-
-### App runs at:
-
-* Frontend: [http://localhost:5173](http://localhost:5173)
-* Backend API: [http://localhost:5000/api](http://localhost:5000/api)
-
----
-
-## 🔐 .env Example
-
-### `backend/.env`
-
-```
-MONGO_URI=mongodb://mongo:27017/fundflow
-JWT_SECRET=supersecretjwtkey
+```env
 PORT=5000
+MONGO_URI=mongodb://localhost:27017/fundflow
+JWT_SECRET=your_secret_key
 ```
 
-### `frontend/.env`
+### 3. Setup Frontend
 
-```
-VITE_API_URL=http://localhost:5000/api
+```bash
+cd frontend
+npm install
+npm run dev
 ```
 
 ---
 
-## 🧪 Postman Collection
+## 🔑 Sample JWT Tokens (for testing)
 
-You can test the full API set with this Postman collection:
+> Replace `your_token_here` with actual tokens from login.
 
-👉 [Download Postman Collection](./fundflow_postman_collection.json)
+| Role     | Example Token                     |
+| -------- | --------------------------------- |
+| Admin    | `eyJhbGciOiJIUzI1NiIsInR5cCI6...` |
+| Customer | `eyJhbGciOiJIUzI1NiIsInR5cCI6...` |
 
 ---
 
-## 🔌 API Endpoints
+## 📌 API Endpoints
 
-### Auth (`/api/auth`)
+### Auth
 
-* `POST /register` → `{ email, password, role }`
-* `POST /login` → `{ email, password }`
+* `POST /api/auth/login`
+* `POST /api/customers` (used by admin to create customer)
 
-### Customers (admin-only, `/api/customers`)
+### Customer
 
-* `GET /`
-* `POST /`
-* `PUT /:id`
-* `DELETE /:id`
+* `GET /api/customers`
+* `PUT /api/customers/:id`
+* `DELETE /api/customers/:id`
 
-### Loans (`/api/loans`)
+### Loans
 
-* `POST /` → Customer applies for loan
-* `GET /` → Admin sees all loans
+* `POST /api/loans` (admin/customer)
+* `GET /api/loans`
+* `PUT /api/loans/:id`
+* `DELETE /api/loans/:id`
+
+---
+
+## 🧪 Bonus Modules Implemented
+
+✅ MongoDB logging
+✅ Responsive UI with Tailwind CSS
+✅ Admin & Customer layouts with role-based dashboards
+✅ Real-time credit scoring logic
+🚧 Swagger API docs & PDF summary: *Not yet implemented*
 
 ---
 
@@ -133,40 +165,34 @@ You can test the full API set with this Postman collection:
 
 ```
 fundflow-credit-portal/
-├── backend/         # Node.js API with Express + MongoDB
-│   └── Dockerfile
-├── frontend/        # React (Vite) + Tailwind UI
-│   └── Dockerfile
-├── docker-compose.yml
+├── backend/
+│   ├── src/
+│   │   ├── controllers/
+│   │   ├── routes/
+│   │   ├── models/
+│   │   ├── middleware/
+│   │   └── utils/
+├── frontend/
+│   ├── pages/
+│   ├── components/
+│   ├── context/
+│   └── lib/
 ```
 
 ---
 
-## 🧠 Credit Scoring Logic
+## 📸 UI Overview
 
-Loan requests are scored out of 100 based on:
-
-* EMI ≤ 40% of income
-* ≤ 2 active loans
-* Smaller amount = better
-* Higher credit score boosts score
-
-If score ≥ 70 → `Approved`, otherwise → `Rejected`.
+* Glassmorphism UI for modals, forms, and dashboards
+* Fully responsive (mobile + desktop)
+* Admin panel with sidebar navigation
+* Customer dashboard with loan summaries
 
 ---
 
-## ✅ Bonus Features
+## 📝 Assumptions
 
-* MongoDB logging of all loan requests
-* Toast notifications
-* Pagination & filters
-* Admin customer editing modal
-* Dockerized deployment
-
----
-
-## 💬 Author & Contact
-
-Built for technical interview assignment by \Nuraj
-📧 \[[nurajshaminda200@gmail.com](mailto:nurajshaminda200@gmail.com)]
-
+* Credit scores are generated randomly during customer creation
+* All data is stored in MongoDB instead of MySQL (as allowed)
+* No payment gateway or actual EMI tracking is implemented
+* Customer login is enabled only after admin adds the user

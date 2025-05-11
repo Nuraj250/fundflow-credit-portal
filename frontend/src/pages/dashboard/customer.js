@@ -14,9 +14,6 @@ export default function CustomerDashboard() {
     const router = useRouter();
     const [loans, setLoans] = useState([]);
     const [loanModalOpen, setLoanModalOpen] = useState(false);
-    const [loanData, setLoanData] = useState({
-        customerId: id || '', loanAmount: '', durationMonths: '', purpose: '', monthlyIncome: '', existingLoans: ''
-    });
 
     useEffect(() => {
         if (role !== 'customer') router.push('/');
@@ -31,18 +28,16 @@ export default function CustomerDashboard() {
         if (token) fetchLoans();
     }, [token]);
 
-    const handleChange = (e) => setLoanData({ ...loanData, [e.target.name]: e.target.value });
-
-    const handleSubmit = async (e) => {
-        if (e?.preventDefault) e.preventDefault();
+    const handleSubmit = async (formData) => {
         try {
-            console.log("ata",loanData)
-            await api.post('/loans', loanData);
+            const payload = { ...formData, customerId: id };
+            console.log('🧾 Submitting loan from dashboard:', payload);
+            await api.post('/loans', payload);
             toast.success('Loan applied successfully');
             fetchLoans();
-            setLoanData({ loanAmount: '', durationMonths: '', purpose: '', monthlyIncome: '', existingLoans: '' });
             setLoanModalOpen(false);
-        } catch {
+        } catch (err) {
+            console.error('Loan request failed:', err.response?.data || err.message);
             toast.error('Loan request failed');
         }
     };
@@ -63,9 +58,9 @@ export default function CustomerDashboard() {
                 isOpen={loanModalOpen}
                 onClose={() => setLoanModalOpen(false)}
                 onSubmit={handleSubmit}
-                initialData={loanData}
                 customerId={id}
-                customers={[]}
+                customers={[]} // optional
+                role="customer"
             />
         </>
     );

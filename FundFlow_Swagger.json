@@ -1,0 +1,192 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "FundFlow API",
+    "version": "1.0.0",
+    "description": "Swagger documentation for the FundFlow Microfinance Credit Scoring API."
+  },
+  "servers": [
+    {
+      "url": "http://localhost:5000"
+    }
+  ],
+  "paths": {
+    "/api/auth/login": {
+      "post": {
+        "summary": "Login",
+        "description": "Authenticate a user and return JWT token",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "email": {
+                    "type": "string"
+                  },
+                  "password": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "email",
+                  "password"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful login"
+          },
+          "400": {
+            "description": "Invalid credentials"
+          }
+        }
+      }
+    },
+    "/api/customers": {
+      "get": {
+        "summary": "Get all customers",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "List of customers"
+          }
+        }
+      },
+      "post": {
+        "summary": "Create a new customer",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string"
+                  },
+                  "NIC": {
+                    "type": "string"
+                  },
+                  "email": {
+                    "type": "string"
+                  },
+                  "password": {
+                    "type": "string"
+                  },
+                  "monthlyIncome": {
+                    "type": "number"
+                  }
+                },
+                "required": [
+                  "name",
+                  "NIC",
+                  "email",
+                  "password",
+                  "monthlyIncome"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Customer created"
+          },
+          "400": {
+            "description": "Email exists or invalid input"
+          }
+        }
+      }
+    },
+    "/api/loans": {
+      "get": {
+        "summary": "Get all loans",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "List of loans"
+          }
+        }
+      },
+      "post": {
+        "summary": "Create a loan",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "customerId": {
+                    "type": "string"
+                  },
+                  "loanAmount": {
+                    "type": "number"
+                  },
+                  "durationMonths": {
+                    "type": "number"
+                  },
+                  "purpose": {
+                    "type": "string"
+                  },
+                  "monthlyIncome": {
+                    "type": "number"
+                  },
+                  "existingLoans": {
+                    "type": "number"
+                  }
+                },
+                "required": [
+                  "loanAmount",
+                  "durationMonths",
+                  "purpose",
+                  "monthlyIncome",
+                  "existingLoans"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Loan created"
+          },
+          "400": {
+            "description": "Validation error"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer"
+      }
+    }
+  }
+}
